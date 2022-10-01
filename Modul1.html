@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Modul1</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-09-29"><meta name="DC.source" content="Modul1.m"><style type="text/css">
+      --><title>Modul1a</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-10-01"><meta name="DC.source" content="Modul1a.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -101,12 +101,18 @@ eta2 = NH2./NM2.*100;
 Tabel2 = table(Bukaan2,H2,W2,NH2,NM2,eta2)
 
 TrendlineW2 = polyfit(Q2,W2,2)
+rsqW2 = regresi(Q2,W2,TrendlineW2)
+
 TrendlineNM2 = polyfit(Q2,NM2,3)
+rsqNM2 = regresi(Q2,NM2,TrendlineNM2)
+
 Trendlineeta2 = polyfit(Q2,eta2,3)
+rsqeta2 = regresi(Q2,eta2,Trendlineeta2)
 
 etaa2 = polyder(Trendlineeta2);
 etamax2 = roots(etaa2)
 NilaiAkhir2 = polyval(Trendlineeta2,etamax2)
+<span class="comment">%TrendlineTorsi2 = polyfit(Q2,)</span>
 
 <span class="comment">%Data</span>
 single = table2array(readtable(<span class="string">'Single.xlsx'</span>));
@@ -129,8 +135,13 @@ eta = NH./NM.*100;
 Tabel = table(Bukaan,H,W,NH,NM,eta)
 
 TrendlineW = polyfit(Q,W,2)
+rsqW = regresi(Q,W,TrendlineW)
+
 TrendlineNM = polyfit(Q,NM,3)
+rsqNM = regresi(Q,NM,TrendlineNM)
+
 Trendlineeta = polyfit(Q,eta,3)
+rsqeta = regresi(Q,eta,Trendlineeta)
 
 etaa = polyder(Trendlineeta);
 etamax = roots(etaa)
@@ -138,13 +149,11 @@ NilaiAkhir = polyval(Trendlineeta,etamax)
 
 f= figure;
 set(gcf, <span class="string">'Position'</span>, [100, 100, 800, 500])
-
 ax1 = axes;
 yyaxis <span class="string">left</span>
-
 satu2 = plot(Q2,W2,<span class="string">'o'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
 hold <span class="string">on</span>
-set(gca,<span class="string">'Position'</span>,[0.15 0.15 0.75 0.75])
+set(gca,<span class="string">'Position'</span>,[0.15 0.15 0.75 0.75],<span class="string">'YColor'</span>,<span class="string">'r'</span>)
 pause(0.1)
 ax1.XTickMode = <span class="string">'manual'</span>;
 ax1.YTickMode = <span class="string">'auto'</span>;
@@ -157,6 +166,7 @@ satua2 = fplot(poly2sym(TrendlineW2),ax1.XLim,<span class="string">':'</span>,<s
 grid(ax1,<span class="string">'off'</span>)
 ytick = ax1.YTick;
 yyaxis <span class="string">right</span>
+set(gca,<span class="string">'YColor'</span>,<span class="string">'b'</span>)
 ylabel(<span class="string">'NM (W)'</span>)
 dua = plot(Q,NM,<span class="string">'square'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
 duaa = fplot(poly2sym(TrendlineNM),ax1.XLim,<span class="string">'--'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
@@ -187,11 +197,12 @@ xlabel(<span class="string">'Q (l/hr)'</span>)
 ylabel(<span class="string">'W (J/kg), \eta (%)'</span>)
 
 hold <span class="string">off</span>
-</pre><pre class="codeoutput">Warning: Column headers from the file were modified to make them valid MATLAB
-identifiers before creating variable names for the table. The original column
-headers are saved in the VariableDescriptions property.
-Set 'VariableNamingRule' to 'preserve' to use the original column headers as
-table variable names. 
+</pre><pre class="codeoutput">Warning: Column headers from the file were modified to make
+them valid MATLAB identifiers before creating variable
+names for the table. The original column headers are saved
+in the VariableDescriptions property.
+Set 'VariableNamingRule' to 'preserve' to use the original
+column headers as table variable names. 
 Tabel2 =
   7&times;6 table
      Bukaan2          H2            W2           NH2           NM2           eta2   
@@ -205,21 +216,28 @@ Tabel2 =
     7.0000e+00    1.9550e+01    1.9172e+02    0.0000e+00    2.5835e+02    0.0000e+00
 TrendlineW2 =
   -5.4148e-06  -6.3581e-03   1.9152e+02
+rsqW2 =
+   9.9821e-01
 TrendlineNM2 =
    1.7188e-09  -1.6688e-05   7.8106e-02   2.5834e+02
+rsqNM2 =
+   9.9859e-01
 Trendlineeta2 =
   -7.4554e-10   1.2829e-06   1.2033e-02  -3.7108e-04
+rsqeta2 =
+   9.9984e-01
 etamax2 =
    2.9629e+03
   -1.8158e+03
 NilaiAkhir2 =
    2.7523e+01
   -1.3157e+01
-Warning: Column headers from the file were modified to make them valid MATLAB
-identifiers before creating variable names for the table. The original column
-headers are saved in the VariableDescriptions property.
-Set 'VariableNamingRule' to 'preserve' to use the original column headers as
-table variable names. 
+Warning: Column headers from the file were modified to make
+them valid MATLAB identifiers before creating variable
+names for the table. The original column headers are saved
+in the VariableDescriptions property.
+Set 'VariableNamingRule' to 'preserve' to use the original
+column headers as table variable names. 
 Tabel =
   7&times;6 table
       Bukaan          H             W             NH            NM           eta    
@@ -233,17 +251,23 @@ Tabel =
     7.0000e+00    6.4520e+00    6.3272e+01    0.0000e+00    5.6611e+01    0.0000e+00
 TrendlineW =
   -6.6096e-06  -1.4302e-02   6.3253e+01
+rsqW =
+   9.9860e-01
 TrendlineNM =
    4.0814e-09  -1.8932e-05   4.0327e-02   5.6611e+01
+rsqNM =
+   9.9995e-01
 Trendlineeta =
   -3.6598e-09  -2.0746e-06   1.9957e-02   3.6663e-04
+rsqeta =
+   9.9665e-01
 etamax =
   -1.5503e+03
    1.1724e+03
 NilaiAkhir =
   -2.2288e+01
    1.4648e+01
-</pre><img vspace="5" hspace="5" src="Modul1_01.png" alt=""> <pre class="codeinput"><span class="comment">%Data</span>
+</pre><img vspace="5" hspace="5" src="Modul1a_01.png" alt=""> <pre class="codeinput"><span class="comment">%Data</span>
 parallel4 = table2array(readtable(<span class="string">'Parallel2937.xlsx'</span>));
 <span class="comment">% 1.Bukaan Valve 2.Velocity rpm 3.P1 bar 4.P2 bar 5.Debit l/hr 6.Torsi N.m</span>
 
@@ -260,6 +284,8 @@ z = 0.21;
 H14 = (P24-P14).*100000./gamma+z;
 H24 = (P34-P14).*100000./gamma+z;
 H4 = H14+H24;
+W14 = H14.*g;
+W24 = H24.*g;
 W4 = H4.*g;
 NH4 = gamma.*Q4./3600./1000.*H4;
 NM14 = n14.*pi().*Torsi4./30;
@@ -269,9 +295,16 @@ eta4 = NH4./NM4.*100;
 
 Tabel4 = table(Bukaan4,H4,W4,NH4,NM4,eta4)
 
+TrendlineW14 = polyfit(Q4,W14,2)
+TrendlineW24 = polyfit(Q4,W24,2)
 TrendlineW4 = polyfit(Q4,W4,2)
+rsqW4 = regresi(Q4,W4,TrendlineW4)
+
 TrendlineNM4 = polyfit(Q4,NM4,3)
+rsqNM4 = regresi(Q4,NM4,TrendlineNM4)
+
 Trendlineeta4 = polyfit(Q4,eta4,3)
+rsqeta4 = regresi(Q4,eta4,Trendlineeta4)
 
 etaa4 = polyder(Trendlineeta4);
 etamax4 = roots(etaa4)
@@ -293,18 +326,27 @@ z = 0.21;
 H13 = (P23-P13).*100000./gamma+z;
 H23 = (P33-P13).*100000./gamma+z;
 H3 = H13+H23;
+W13 = H13.*g;
+W23 = H23.*g;
 W3 = H3.*g;
 NH3 = gamma.*Q3./3600./1000.*H3;
 NM13 = n13.*pi().*Torsi3./30;
-NM23 = n23.*pi().*Torsi3./30;
+NM23 = n23.*pi().*Torsi2./30;
 NM3 = NM13+NM23;
 eta3 = NH3./NM3.*100;
 
 Tabel3 = table(Bukaan3,H3,W3,NH3,NM3,eta3)
 
+TrendlineW13 = polyfit(Q3,W13,2)
+TrendlineW23 = polyfit(Q3,W23,2)
 TrendlineW3 = polyfit(Q3,W3,2)
+rsqW3 = regresi(Q3,W3,TrendlineW3)
+
 TrendlineNM3 = polyfit(Q3,NM3,3)
+rsqNM3 = regresi(Q3,NM3,TrendlineNM3)
+
 Trendlineeta3 = polyfit(Q3,eta3,3)
+rsqeta3 = regresi(Q3,eta3,Trendlineeta3)
 
 etaa3 = polyder(Trendlineeta3);
 etamax3 = roots(etaa3)
@@ -319,7 +361,7 @@ yyaxis <span class="string">left</span>
 satu = plot(Q4,W4,<span class="string">'o'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
 
 hold <span class="string">on</span>
-set(gca,<span class="string">'Position'</span>,[0.15 0.15 0.75 0.75])
+set(gca,<span class="string">'Position'</span>,[0.15 0.15 0.75 0.75],<span class="string">'YColor'</span>,<span class="string">'r'</span>)
 
 satu3 = plot(Q3,W3,<span class="string">'o'</span>,<span class="string">'Color'</span>,<span class="string">'[0.6350 0.0780 0.1840]'</span>);
 
@@ -334,6 +376,7 @@ satua3 = fplot(poly2sym(TrendlineW3),ax1.XLim,<span class="string">':'</span>,<s
 grid(ax1,<span class="string">'off'</span>)
 ytick = ax1.YTick;
 yyaxis <span class="string">right</span>
+set(gca,<span class="string">'YColor'</span>,<span class="string">'b'</span>)
 ylabel(<span class="string">'NM (W)'</span>)
 dua3 = plot(Q3,NM3,<span class="string">'square'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
 duaa3 = fplot(poly2sym(TrendlineNM3),ax1.XLim,<span class="string">'--'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
@@ -351,7 +394,7 @@ ax2.Color = <span class="string">'none'</span>;
 grid(ax2, <span class="string">'off'</span>)
 ax2.XLim = ax1.XLim;
 ax2.XTick = ax1.XTick;
-ax2.YLim = [0 max(eta3)+5];
+ax2.YLim = [0 max(eta4)+5];
 ax2.YLimMode = <span class="string">'manual'</span>;
 yl = ax2.YLim;
 ax2.YTick = linspace(yl(1), yl(2), length(ytick));
@@ -379,12 +422,22 @@ Tabel4 =
     5.0000e+00    3.1630e+01    3.1018e+02    4.9371e+02    7.5211e+02    6.5643e+01
     6.0000e+00    3.8793e+01    3.8043e+02    2.8959e+02    6.1649e+02    4.6975e+01
     7.0000e+00    4.2681e+01    4.1856e+02    0.0000e+00    5.2401e+02    0.0000e+00
+TrendlineW14 =
+  -1.0509e-06  -2.3367e-03   1.9176e+02
+TrendlineW24 =
+  -6.4826e-07  -6.6107e-03   2.2656e+02
 TrendlineW4 =
   -1.6991e-06  -8.9474e-03   4.1832e+02
+rsqW4 =
+   9.9912e-01
 TrendlineNM4 =
   -7.8349e-10   8.6625e-06   1.5746e-02   5.2400e+02
+rsqNM4 =
+   9.9969e-01
 Trendlineeta4 =
    7.0231e-11  -2.4315e-06   2.3150e-02   4.4768e-02
+rsqeta4 =
+   9.9917e-01
 etamax4 =
    1.6368e+04
    6.7127e+03
@@ -400,26 +453,72 @@ Tabel3 =
   7&times;6 table
      Bukaan3          H3            W3           NH3           NM3           eta3   
     __________    __________    __________    __________    __________    __________
-    1.0000e+00    1.0909e+01    1.0698e+02    1.8138e+02    2.3891e+02    7.5917e+01
-    2.0000e+00    1.1164e+01    1.0949e+02    1.8184e+02    2.3742e+02    7.6591e+01
-    3.0000e+00    1.2188e+01    1.1952e+02    1.9437e+02    2.3593e+02    8.2387e+01
-    4.0000e+00    1.3057e+01    1.2805e+02    1.9052e+02    2.2796e+02    8.3576e+01
-    5.0000e+00    1.6588e+01    1.6267e+02    1.9137e+02    1.8665e+02    1.0253e+02
-    6.0000e+00    2.3751e+01    2.3292e+02    1.4507e+02    1.5231e+02    9.5246e+01
-    7.0000e+00    2.8611e+01    2.8058e+02    0.0000e+00    1.4932e+02    0.0000e+00
+    1.0000e+00    1.0909e+01    1.0698e+02    1.8138e+02    5.0768e+02    3.5727e+01
+    2.0000e+00    1.1164e+01    1.0949e+02    1.8184e+02    5.0711e+02    3.5858e+01
+    3.0000e+00    1.2188e+01    1.1952e+02    1.9437e+02    5.0345e+02    3.8608e+01
+    4.0000e+00    1.3057e+01    1.2805e+02    1.9052e+02    4.9425e+02    3.8547e+01
+    5.0000e+00    1.6588e+01    1.6267e+02    1.9137e+02    4.7858e+02    3.9988e+01
+    6.0000e+00    2.3751e+01    2.3292e+02    1.4507e+02    4.2848e+02    3.3855e+01
+    7.0000e+00    2.8611e+01    2.8058e+02    0.0000e+00    3.1614e+02    0.0000e+00
+TrendlineW13 =
+  -1.7456e-06   4.9998e-03   6.0771e+01
+TrendlineW23 =
+   6.9432e-07  -2.7386e-02   2.2169e+02
 TrendlineW3 =
   -1.0512e-06  -2.2386e-02   2.8246e+02
+rsqW3 =
+   9.9595e-01
 TrendlineNM3 =
-  -5.2184e-10   8.1273e-06  -1.5199e-02   1.4961e+02
+   6.4940e-10  -1.0288e-05   6.9971e-02   3.1608e+02
+rsqNM3 =
+   9.9981e-01
 Trendlineeta3 =
-   8.8029e-10  -1.5171e-05   7.2291e-02  -9.0784e-02
+   2.1313e-10  -4.1213e-06   2.3159e-02   2.8382e-02
+rsqeta3 =
+   9.9712e-01
 etamax3 =
-   8.1166e+03
-   3.3726e+03
+   8.7540e+03
+   4.1377e+03
 NilaiAkhir3 =
-   5.7934e+01
-   1.0493e+02
-</pre><img vspace="5" hspace="5" src="Modul1_02.png" alt=""> <pre class="codeinput">figure
+   2.9909e+01
+   4.0393e+01
+</pre><img vspace="5" hspace="5" src="Modul1a_02.png" alt=""> <pre class="codeinput">figure
+set(gcf, <span class="string">'Position'</span>, [100, 100, 800, 500])
+plot(Q2,W2,<span class="string">'o'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Single 2937 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>
+set(gca,<span class="string">'Position'</span>,[0.15 0.15 0.75 0.75])
+plot(Q,W,<span class="string">'square'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Single 1803 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>);
+plot(Q3,W13,<span class="string">'square'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'c'</span>);
+plot(Q4,W14,<span class="string">'o'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Parallel 2937 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'m'</span>);
+
+fplot(poly2sym(TrendlineW2),<span class="string">'r'</span>);
+fplot(poly2sym(TrendlineW)),<span class="string">'b'</span>;
+fplot(poly2sym(TrendlineW13),<span class="string">'c'</span>);
+fplot(poly2sym(TrendlineW14),<span class="string">'m'</span>)
+hold <span class="string">off</span>
+title(<span class="string">'Perbandingan W(Q) Pompa AB-1'</span>)
+xlabel(<span class="string">'Q (l/hr)'</span>)
+ylabel(<span class="string">'W (W)'</span>)
+xlim([0 max(Q4)+100])
+ylim([0 max(W14)+10])
+legend(<span class="string">'Single 2937 rpm'</span>,<span class="string">'Single 1803 rpm'</span>,<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Parallel 2937 rpm'</span>)
+</pre><img vspace="5" hspace="5" src="Modul1a_03.png" alt=""> <pre class="codeinput">figure
+set(gcf, <span class="string">'Position'</span>, [100, 100, 800, 500])
+plot(Q3,W23,<span class="string">'square'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
+hold <span class="string">on</span>
+set(gca,<span class="string">'Position'</span>,[0.15 0.15 0.75 0.75])
+plot(Q4,W24,<span class="string">'o'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Parallel 2937 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'m'</span>);
+
+fplot(poly2sym(TrendlineW23),<span class="string">'r'</span>);
+fplot(poly2sym(TrendlineW24),<span class="string">'m'</span>)
+hold <span class="string">off</span>
+title(<span class="string">'Perbandingan W(Q) Pompa AB-2 Sistem Parallel'</span>)
+xlabel(<span class="string">'Q (l/hr)'</span>)
+ylabel(<span class="string">'W (W)'</span>)
+xlim([0 max(Q4)+100])
+ylim([0 max(W24)+10])
+legend(<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Parallel 2937 rpm'</span>)
+</pre><img vspace="5" hspace="5" src="Modul1a_04.png" alt=""> <pre class="codeinput">figure
 set(gcf, <span class="string">'Position'</span>, [100, 100, 800, 500])
 plot(Q2,W2,<span class="string">'o'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Single 2937 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
 hold <span class="string">on</span>
@@ -439,7 +538,7 @@ ylabel(<span class="string">'W (W)'</span>)
 xlim([0 max(Q4)+100])
 ylim([0 max(W4)+10])
 legend(<span class="string">'Single 2937 rpm'</span>,<span class="string">'Single 1803 rpm'</span>,<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Parallel 2937 rpm'</span>)
-</pre><img vspace="5" hspace="5" src="Modul1_03.png" alt=""> <pre class="codeinput">figure
+</pre><img vspace="5" hspace="5" src="Modul1a_05.png" alt=""> <pre class="codeinput">figure
 set(gcf, <span class="string">'Position'</span>, [100, 100, 800, 500])
 plot(Q2,NM2,<span class="string">'o'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Single 2937 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
 hold <span class="string">on</span>
@@ -459,7 +558,7 @@ ylabel(<span class="string">'NM (W)'</span>)
 xlim([0 max(Q4)+100])
 ylim([0 max(NM4)+10])
 legend(<span class="string">'Single 2937 rpm'</span>,<span class="string">'Single 1803 rpm'</span>,<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Parallel 2937 rpm'</span>)
-</pre><img vspace="5" hspace="5" src="Modul1_04.png" alt=""> <pre class="codeinput">figure
+</pre><img vspace="5" hspace="5" src="Modul1a_06.png" alt=""> <pre class="codeinput">figure
 set(gcf, <span class="string">'Position'</span>, [100, 100, 800, 500])
 plot(Q2,eta2,<span class="string">'o'</span>,<span class="string">'DisplayName'</span>,<span class="string">'Single 2937 rpm'</span>,<span class="string">'Color'</span>,<span class="string">'r'</span>);
 hold <span class="string">on</span>
@@ -477,9 +576,17 @@ title(<span class="string">'Perbandingan \eta(Q)'</span>)
 xlabel(<span class="string">'Q (l/hr)'</span>)
 ylabel(<span class="string">'\eta (W)'</span>)
 xlim([0 max(Q4)+100])
-ylim([0 max(eta3)+10])
+ylim([0 max(eta4)+10])
 legend(<span class="string">'Single 2937 rpm'</span>,<span class="string">'Single 1803 rpm'</span>,<span class="string">'Parallel 1803 rpm'</span>,<span class="string">'Parallel 2937 rpm'</span>)
-</pre><img vspace="5" hspace="5" src="Modul1_05.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+
+<span class="keyword">function</span> rsq = regresi(Q,data,trendline)
+    datafit = polyval(trendline,Q);
+    dataresid = data - datafit;
+    SSresiddata = sum(dataresid.^2);
+    SStotaldata = (length(data)-1) * var(data);
+    rsq = 1 - SSresiddata/SStotaldata;
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="Modul1a_07.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 clc
 close all
@@ -515,12 +622,18 @@ eta2 = NH2./NM2.*100;
 Tabel2 = table(Bukaan2,H2,W2,NH2,NM2,eta2)
 
 TrendlineW2 = polyfit(Q2,W2,2)
+rsqW2 = regresi(Q2,W2,TrendlineW2)
+
 TrendlineNM2 = polyfit(Q2,NM2,3)
+rsqNM2 = regresi(Q2,NM2,TrendlineNM2)
+
 Trendlineeta2 = polyfit(Q2,eta2,3)
+rsqeta2 = regresi(Q2,eta2,Trendlineeta2)
 
 etaa2 = polyder(Trendlineeta2);
 etamax2 = roots(etaa2)
 NilaiAkhir2 = polyval(Trendlineeta2,etamax2)
+%TrendlineTorsi2 = polyfit(Q2,)
 
 %Data
 single = table2array(readtable('Single.xlsx'));
@@ -543,8 +656,13 @@ eta = NH./NM.*100;
 Tabel = table(Bukaan,H,W,NH,NM,eta)
 
 TrendlineW = polyfit(Q,W,2)
+rsqW = regresi(Q,W,TrendlineW)
+
 TrendlineNM = polyfit(Q,NM,3)
+rsqNM = regresi(Q,NM,TrendlineNM)
+
 Trendlineeta = polyfit(Q,eta,3)
+rsqeta = regresi(Q,eta,Trendlineeta)
 
 etaa = polyder(Trendlineeta);
 etamax = roots(etaa)
@@ -552,13 +670,11 @@ NilaiAkhir = polyval(Trendlineeta,etamax)
 
 f= figure;
 set(gcf, 'Position', [100, 100, 800, 500])
-
 ax1 = axes; 
 yyaxis left
-
 satu2 = plot(Q2,W2,'o','Color','r');
 hold on
-set(gca,'Position',[0.15 0.15 0.75 0.75])
+set(gca,'Position',[0.15 0.15 0.75 0.75],'YColor','r')
 pause(0.1)
 ax1.XTickMode = 'manual'; 
 ax1.YTickMode = 'auto'; 
@@ -571,6 +687,7 @@ satua2 = fplot(poly2sym(TrendlineW2),ax1.XLim,':','Color','r');
 grid(ax1,'off')
 ytick = ax1.YTick;  
 yyaxis right
+set(gca,'YColor','b')
 ylabel('NM (W)')
 dua = plot(Q,NM,'square','Color','b');
 duaa = fplot(poly2sym(TrendlineNM),ax1.XLim,'REPLACE_WITH_DASH_DASH','Color','b');
@@ -619,6 +736,8 @@ z = 0.21;
 H14 = (P24-P14).*100000./gamma+z;
 H24 = (P34-P14).*100000./gamma+z;
 H4 = H14+H24;
+W14 = H14.*g;
+W24 = H24.*g;
 W4 = H4.*g;
 NH4 = gamma.*Q4./3600./1000.*H4;
 NM14 = n14.*pi().*Torsi4./30;
@@ -628,9 +747,16 @@ eta4 = NH4./NM4.*100;
 
 Tabel4 = table(Bukaan4,H4,W4,NH4,NM4,eta4)
 
+TrendlineW14 = polyfit(Q4,W14,2)
+TrendlineW24 = polyfit(Q4,W24,2)
 TrendlineW4 = polyfit(Q4,W4,2)
+rsqW4 = regresi(Q4,W4,TrendlineW4)
+
 TrendlineNM4 = polyfit(Q4,NM4,3)
+rsqNM4 = regresi(Q4,NM4,TrendlineNM4)
+
 Trendlineeta4 = polyfit(Q4,eta4,3)
+rsqeta4 = regresi(Q4,eta4,Trendlineeta4)
 
 etaa4 = polyder(Trendlineeta4);
 etamax4 = roots(etaa4)
@@ -652,18 +778,27 @@ z = 0.21;
 H13 = (P23-P13).*100000./gamma+z;
 H23 = (P33-P13).*100000./gamma+z;
 H3 = H13+H23;
+W13 = H13.*g;
+W23 = H23.*g;
 W3 = H3.*g;
 NH3 = gamma.*Q3./3600./1000.*H3;
 NM13 = n13.*pi().*Torsi3./30;
-NM23 = n23.*pi().*Torsi3./30;
+NM23 = n23.*pi().*Torsi2./30;
 NM3 = NM13+NM23;
 eta3 = NH3./NM3.*100;
 
 Tabel3 = table(Bukaan3,H3,W3,NH3,NM3,eta3)
 
+TrendlineW13 = polyfit(Q3,W13,2)
+TrendlineW23 = polyfit(Q3,W23,2)
 TrendlineW3 = polyfit(Q3,W3,2)
+rsqW3 = regresi(Q3,W3,TrendlineW3)
+
 TrendlineNM3 = polyfit(Q3,NM3,3)
+rsqNM3 = regresi(Q3,NM3,TrendlineNM3)
+
 Trendlineeta3 = polyfit(Q3,eta3,3)
+rsqeta3 = regresi(Q3,eta3,Trendlineeta3)
 
 etaa3 = polyder(Trendlineeta3);
 etamax3 = roots(etaa3)
@@ -678,7 +813,7 @@ yyaxis left
 satu = plot(Q4,W4,'o','Color','r');
 
 hold on
-set(gca,'Position',[0.15 0.15 0.75 0.75])
+set(gca,'Position',[0.15 0.15 0.75 0.75],'YColor','r')
 
 satu3 = plot(Q3,W3,'o','Color','[0.6350 0.0780 0.1840]');
 
@@ -693,6 +828,7 @@ satua3 = fplot(poly2sym(TrendlineW3),ax1.XLim,':','Color','[0.6350 0.0780 0.1840
 grid(ax1,'off')
 ytick = ax1.YTick;  
 yyaxis right
+set(gca,'YColor','b')
 ylabel('NM (W)')
 dua3 = plot(Q3,NM3,'square','Color','b');
 duaa3 = fplot(poly2sym(TrendlineNM3),ax1.XLim,'REPLACE_WITH_DASH_DASH','Color','b');
@@ -710,7 +846,7 @@ ax2.Color = 'none';
 grid(ax2, 'off')
 ax2.XLim = ax1.XLim; 
 ax2.XTick = ax1.XTick; 
-ax2.YLim = [0 max(eta3)+5];
+ax2.YLim = [0 max(eta4)+5];
 ax2.YLimMode = 'manual'; 
 yl = ax2.YLim; 
 ax2.YTick = linspace(yl(1), yl(2), length(ytick));
@@ -722,6 +858,45 @@ title('W, NM, dan ɳ Terhadap Q untuk Parallel Pump')
 xlabel('Q (l/hr)')
 ylabel('W (J/kg), \eta (%)')
 hold off
+%%
+figure
+set(gcf, 'Position', [100, 100, 800, 500])
+plot(Q2,W2,'o','DisplayName','Single 2937 rpm','Color','r');
+hold on
+set(gca,'Position',[0.15 0.15 0.75 0.75])
+plot(Q,W,'square','DisplayName','Single 1803 rpm','Color','b');
+plot(Q3,W13,'square','DisplayName','Parallel 1803 rpm','Color','c');
+plot(Q4,W14,'o','DisplayName','Parallel 2937 rpm','Color','m');
+
+fplot(poly2sym(TrendlineW2),'r');
+fplot(poly2sym(TrendlineW)),'b';
+fplot(poly2sym(TrendlineW13),'c');
+fplot(poly2sym(TrendlineW14),'m')
+hold off
+title('Perbandingan W(Q) Pompa AB-1')
+xlabel('Q (l/hr)')
+ylabel('W (W)')
+xlim([0 max(Q4)+100])
+ylim([0 max(W14)+10])
+legend('Single 2937 rpm','Single 1803 rpm','Parallel 1803 rpm','Parallel 2937 rpm')
+%%
+figure
+set(gcf, 'Position', [100, 100, 800, 500])
+plot(Q3,W23,'square','DisplayName','Parallel 1803 rpm','Color','r');
+hold on
+set(gca,'Position',[0.15 0.15 0.75 0.75])
+plot(Q4,W24,'o','DisplayName','Parallel 2937 rpm','Color','m');
+
+fplot(poly2sym(TrendlineW23),'r');
+fplot(poly2sym(TrendlineW24),'m')
+hold off
+title('Perbandingan W(Q) Pompa AB-2 Sistem Parallel')
+xlabel('Q (l/hr)')
+ylabel('W (W)')
+xlim([0 max(Q4)+100])
+ylim([0 max(W24)+10])
+legend('Parallel 1803 rpm','Parallel 2937 rpm')
+
 %%
 figure
 set(gcf, 'Position', [100, 100, 800, 500])
@@ -783,7 +958,15 @@ title('Perbandingan \eta(Q)')
 xlabel('Q (l/hr)')
 ylabel('\eta (W)')
 xlim([0 max(Q4)+100])
-ylim([0 max(eta3)+10])
+ylim([0 max(eta4)+10])
 legend('Single 2937 rpm','Single 1803 rpm','Parallel 1803 rpm','Parallel 2937 rpm')
+
+function rsq = regresi(Q,data,trendline)
+    datafit = polyval(trendline,Q);
+    dataresid = data - datafit;
+    SSresiddata = sum(dataresid.^2);
+    SStotaldata = (length(data)-1) * var(data);
+    rsq = 1 - SSresiddata/SStotaldata;
+end
 ##### SOURCE END #####
 --></body></html>
